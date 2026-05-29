@@ -1,0 +1,368 @@
+@media (max-width: 980px) {
+  .scene-content {
+    padding: 18px;
+  }
+
+  .location-panel {
+    top: 78px;
+    width: min(520px, calc(100vw - 36px));
+  }
+
+  .action-panel {
+    right: 18px;
+    top: auto;
+    bottom: 158px;
+    width: min(320px, calc(100vw - 36px));
+  }
+
+  .dialogue-card {
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+  }
+
+  .action-hud {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .action-bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .control-hint {
+    font-size: 0.84rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .top-bar {
+    left: 12px;
+    right: 12px;
+    top: 12px;
+    justify-content: space-between;
+  }
+
+  .hero-panel,
+  .select-panel,
+  .final-panel {
+    width: calc(100vw - 28px);
+    padding: 20px;
+  }
+
+  .hero-panel {
+    left: 14px;
+    right: 14px;
+    top: 96px;
+  }
+
+  .select-panel,
+  .final-panel {
+    margin-top: 82px;
+  }
+
+  h1 {
+    max-width: 11ch;
+    font-size: 2.65rem;
+  }
+
+  .character-grid,
+  .story-grid,
+  .journal-spread,
+  .piece-tray,
+  .key-slots,
+  .puzzle-choice-grid,
+  .apple-options,
+  .blocks-grid,
+  .dance-grid,
+  .symbols-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .character-card,
+  .story-card {
+    min-height: auto;
+  }
+
+  .location-panel {
+    top: 74px;
+    left: 14px;
+    width: calc(100vw - 28px);
+    padding: 16px;
+  }
+
+  .location-panel h1 {
+    font-size: 2rem;
+  }
+
+  .location-panel p {
+    display: none;
+  }
+
+  .action-panel {
+    left: 14px;
+    right: 14px;
+    bottom: 164px;
+    width: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .dialogue-card {
+    left: 14px;
+    right: 14px;
+    bottom: 12px;
+    grid-template-columns: auto minmax(0, 1fr);
+    min-height: 134px;
+    padding: 12px;
+  }
+
+  .dialogue-card .secondary-button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .speaker-avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  .note-bubble {
+    bottom: 330px;
+    width: calc(100vw - 28px);
+  }
+
+  .scene-marker {
+    min-width: 92px;
+    padding: 9px 10px;
+    font-size: 0.9rem;
+  }
+
+  .stone-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dance-sequence {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .puzzle-modal,
+  .journal-modal {
+    padding: 18px;
+  }
+
+  .journal-page {
+    min-height: 320px;
+    padding: 22px;
+  }
+
+  .action-screen {
+    padding: 10px;
+    padding-bottom: 158px;
+  }
+
+  .action-topbar {
+    display: grid;
+  }
+
+  .action-topbar-buttons {
+    justify-content: stretch;
+  }
+
+  .action-topbar-buttons .secondary-button,
+  .action-topbar-buttons .icon-button {
+    flex: 1;
+  }
+
+  .action-hud {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .action-hud span {
+    min-height: 38px;
+    padding: 7px 8px;
+    font-size: 0.86rem;
+  }
+
+  .action-map-wrap {
+    padding: 8px;
+  }
+
+  .map-obstacle,
+  .map-hazard,
+  .map-enemy,
+  .map-item,
+  .map-helper,
+  .exit-zone {
+    font-size: 0;
+  }
+
+  .map-item {
+    min-width: 28px;
+    min-height: 28px;
+    padding: 0;
+  }
+
+  .map-helper {
+    width: 38px;
+    height: 38px;
+    font-size: 0.68rem;
+  }
+
+  .map-player {
+    width: 34px;
+    height: 34px;
+  }
+
+  .mobile-controls {
+    position: fixed;
+    z-index: 80;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    pointer-events: none;
+  }
+
+  .mobile-stick {
+    width: 132px;
+    height: 132px;
+    display: grid;
+    grid-template-columns: repeat(3, 44px);
+    grid-template-rows: repeat(3, 44px);
+    pointer-events: auto;
+  }
+
+  .mobile-stick button,
+  .mobile-action-buttons button {
+    min-height: 44px;
+    border: 1px solid rgba(245, 238, 221, 0.18);
+    border-radius: 8px;
+    color: #172118;
+    font-weight: 900;
+    background: rgba(244, 210, 127, 0.92);
+  }
+
+  .mobile-stick button:nth-child(1) {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .mobile-stick button:nth-child(2) {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .mobile-stick button:nth-child(3) {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  .mobile-stick button:nth-child(4) {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  .mobile-action-buttons {
+    display: grid;
+    gap: 8px;
+    align-content: end;
+    width: 132px;
+    pointer-events: auto;
+  }
+}
+
+@media (max-width: 430px) {
+  .scene-content {
+    padding: 12px;
+  }
+
+  .hero-panel {
+    top: 86px;
+  }
+
+  .hero-panel p,
+  .final-panel p {
+    font-size: 0.98rem;
+  }
+
+  .primary-button,
+  .secondary-button,
+  .next-button,
+  .icon-button,
+  .journal-button,
+  .close-button {
+    width: 100%;
+  }
+
+  .top-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .location-panel {
+    top: 112px;
+  }
+
+  .action-panel {
+    bottom: 176px;
+  }
+
+  .dialogue-card {
+    min-height: 158px;
+  }
+
+  .dialogue-text p {
+    min-height: 4.7em;
+    font-size: 0.95rem;
+  }
+
+  .note-bubble {
+    bottom: 352px;
+    font-size: 0.95rem;
+  }
+
+  .object-layer {
+    transform: translateY(24px);
+  }
+
+  .scene-marker {
+    min-width: 86px;
+    max-width: 130px;
+    white-space: normal;
+  }
+
+  .cipher-note {
+    font-size: 1.65rem;
+  }
+
+  .journal-page h2 {
+    font-size: 1.45rem;
+  }
+
+  .journal-page p {
+    font-size: 1rem;
+  }
+
+  .action-topbar h1 {
+    font-size: 1.55rem;
+  }
+
+  .action-topbar-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .action-hud {
+    grid-template-columns: 1fr;
+  }
+
+  .action-bottom {
+    font-size: 0.92rem;
+  }
+
+  .control-hint {
+    display: none;
+  }
+}
