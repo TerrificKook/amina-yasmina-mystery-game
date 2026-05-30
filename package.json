@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node ./scripts/vite-dev.mjs",
-    "build": "node ./scripts/vite-build.mjs",
-    "preview": "node ./scripts/vite-preview.mjs"
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
     "react": "^18.3.1",
