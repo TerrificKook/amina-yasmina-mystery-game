@@ -6,6 +6,7 @@ import ActionGameScreen from './components/screens/ActionGameScreen.jsx';
 import LocationScreen from './components/screens/LocationScreen.jsx';
 import FinalScreen from './components/screens/FinalScreen.jsx';
 import Journal from './components/ui/Journal.jsx';
+import ErrorBoundary from './components/ui/ErrorBoundary.jsx';
 
 function GameShell() {
   const { screen } = useGame();
@@ -25,8 +26,10 @@ function GameShell() {
 
 export default function App() {
   return (
-    <GameProvider>
-      <GameShell />
-    </GameProvider>
+    <ErrorBoundary>
+      <GameProvider>
+        <GameShell />
+      </GameProvider>
+    </ErrorBoundary>
   );
 }

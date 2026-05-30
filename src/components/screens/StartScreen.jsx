@@ -7,14 +7,14 @@ export default function StartScreen() {
   const { chooseStory, startGame, muted } = useGame();
   const sound = useSound(muted);
 
-  const handleStart = () => {
-    sound.page();
-    chooseStory('polina');
-  };
-
   const handleStorySelect = () => {
     sound.page();
     startGame();
+  };
+
+  const handlePolinaStart = () => {
+    sound.page();
+    chooseStory('polina');
   };
 
   return (
@@ -24,21 +24,21 @@ export default function StartScreen() {
       </div>
       <section className="hero-panel hero-panel-apple">
         <p className="eyebrow">Top-down adventure</p>
-        <h1>Полина и Тайна Старой Яблони</h1>
+        <h1>Семейные тайны: дневник и яблоневый сад</h1>
         <p>
-          Ночной сад потерял свет. Полине нужно найти три части ключа,
-          пройти через поляны и лабиринт, а потом разбудить Старую Яблоню.
+          Две истории ведут в разные места: Амина и Яся раскрывают тайну светлячкового дневника, а Полина
+          возвращает свет Старой Яблоне. В каждой ветке есть зоны, сбор ключевых предметов, помощники и опасности.
         </p>
         <div className="hero-facts" aria-label="Краткая цель игры">
-          <span>4 зоны</span>
-          <span>3 части ключа</span>
-          <span>Очки и рывок</span>
+          <span>2 истории</span>
+          <span>несколько зон</span>
+          <span>способности героинь</span>
         </div>
-        <button className="primary-button" type="button" onClick={handleStart}>
-          Начать приключение
+        <button className="primary-button" type="button" onClick={handleStorySelect}>
+          Выбрать историю
         </button>
-        <button className="secondary-button" type="button" onClick={handleStorySelect}>
-          Выбрать другую историю
+        <button className="secondary-button" type="button" onClick={handlePolinaStart}>
+          Начать с Полины
         </button>
       </section>
     </ParallaxScene>

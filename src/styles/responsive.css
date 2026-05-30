@@ -227,6 +227,13 @@
     height: 34px;
   }
 
+  .map-player.player-polina,
+  .map-player.player-amina,
+  .map-player.player-yasmina {
+    width: 38px;
+    height: 46px;
+  }
+
   .mobile-controls {
     position: fixed;
     z-index: 80;

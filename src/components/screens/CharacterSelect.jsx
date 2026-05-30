@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useGame } from '../../context/GameContext.jsx';
 import { useSound } from '../../hooks/useSound.js';
+import CharacterSprite from '../ui/CharacterSprite.jsx';
 import ParallaxScene from '../ui/ParallaxScene.jsx';
 import SoundToggle from '../ui/SoundToggle.jsx';
 
@@ -39,7 +40,9 @@ export default function CharacterSelect() {
                 setSelected(character.id);
               }}
             >
-              <span className="character-portrait">{character.name.slice(0, 1)}</span>
+              <span className="character-portrait has-sprite">
+                <CharacterSprite characterId={character.id} name={character.name} />
+              </span>
               <span className="character-name">{character.name}</span>
               <span className="character-age">{character.age}</span>
               <strong>{character.short}</strong>

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { actionLevels } from '../../data/actionLevels.js';
 import { useGame } from '../../context/GameContext.jsx';
+import CharacterSprite from '../ui/CharacterSprite.jsx';
 import SoundToggle from '../ui/SoundToggle.jsx';
 
 const playerSize = 34;
@@ -69,6 +70,13 @@ function makeEnemies(zone) {
 }
 
 function getItemIcon(item) {
+  if (item.type === 'diary-page') return 'Д';
+  if (item.type === 'spark-piece') return 'И';
+  if (item.type === 'track') return 'Т';
+  if (item.type === 'token') return 'Ж';
+  if (item.type === 'lake-light') return 'О';
+  if (item.type === 'firefly-core') return 'К';
+  if (item.type === 'energy') return '+';
   if (item.type === 'key-leaf') return 'Л';
   if (item.type === 'key-apple') return 'Я';
   if (item.type === 'key-star') return 'З';
@@ -751,17 +759,7 @@ export default function ActionGameScreen() {
             data-player="true"
             style={{ left: sx(player.x), top: sy(player.y) }}
           >
-            {storyId === 'polina' ? (
-              <span className="polina-sprite" aria-label={hero.name}>
-                <span className="polina-hair" />
-                <span className="polina-face" />
-                <span className="polina-glasses" />
-                <span className="polina-body" />
-                <span className="polina-feet" />
-              </span>
-            ) : (
-              hero.name.slice(0, 1)
-            )}
+            <CharacterSprite characterId={character} name={hero.name} />
           </div>
         </div>
       </section>
