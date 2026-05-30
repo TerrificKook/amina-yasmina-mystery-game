@@ -1,5 +1,24 @@
 # STATUS
 
+## Исправление пустой страницы GitHub Pages
+
+Причина пустой страницы: GitHub Pages отдавал исходный `index.html` из корня репозитория, а не готовую сборку из `dist`. В этом исходном файле браузер видел путь `/src/main.jsx`, пытался открыть его от корня сайта `terrifickook.github.io` и получал не игру, а пустой экран.
+
+Что исправлено:
+
+- В workflow `.github/workflows/deploy.yml` добавлен шаг `Configure Pages`, чтобы GitHub Pages использовал собранный artifact из `dist`.
+- `npm run preview` теперь запускает отдельный скрипт `scripts/vite-preview.mjs`, который показывает именно production-сборку с base `/amina-yasmina-mystery-game/`.
+
+Что проверено:
+
+- `npm run build` проходит успешно.
+- `npm run preview` запускается на `http://localhost:4173/amina-yasmina-mystery-game/`.
+- Локальный production-путь возвращает HTML со ссылками на собранные файлы `/amina-yasmina-mystery-game/assets/...`.
+- `vite.config.js` содержит правильный `base: '/amina-yasmina-mystery-game/'`.
+- `index.html` содержит `<div id="root"></div>`.
+- `src/main.jsx` рендерит `App` в `root`.
+- Стартовый экран включается по умолчанию через `screen = 'start'`.
+
 ## Что сделано
 
 - Сохранены две семейные истории и персональные детали персонажей.
@@ -31,7 +50,7 @@
 
 ## Что проверить после деплоя
 
-- Открыть `https://terrificcook.github.io/amina-yasmina-mystery-game/`.
+- Открыть `https://terrifickook.github.io/amina-yasmina-mystery-game/`.
 - Проверить стартовый экран и выбор двух историй.
 - Запустить историю Амины/Ясмины и проверить движение, сбор предметов, способность и финал.
 - Запустить историю Полины и проверить движение, сбор яблочек/ключей, способность и финал.

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node ./scripts/vite-dev.mjs",
     "build": "node ./scripts/vite-build.mjs",
-    "preview": "node ./node_modules/vite/bin/vite.js preview --host 0.0.0.0"
+    "preview": "node ./scripts/vite-preview.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
