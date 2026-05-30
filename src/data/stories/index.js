@@ -6,6 +6,6 @@ export const stories = {
   [polinaStory.id]: polinaStory,
 };
 
-export const storyList = [aminaYasminaStory, polinaStory];
+export const storyList = [polinaStory, aminaYasminaStory];
 
-export const defaultStoryId = aminaYasminaStory.id;
+export const defaultStoryId = polinaStory.id;

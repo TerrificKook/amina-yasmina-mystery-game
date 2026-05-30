@@ -1479,3 +1479,597 @@ button:disabled {
     transform: scale(1.04);
   }
 }
+
+.hero-panel-apple {
+  display: grid;
+  gap: 16px;
+  width: min(760px, calc(100vw - 48px));
+  background:
+    linear-gradient(135deg, rgba(20, 16, 35, 0.82), rgba(18, 43, 35, 0.74)),
+    radial-gradient(circle at 82% 18%, rgba(244, 210, 127, 0.2), transparent 28%);
+}
+
+.hero-panel-apple h1 {
+  max-width: 13ch;
+  font-size: clamp(2.6rem, 6vw, 5.2rem);
+}
+
+.hero-facts {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.hero-facts span {
+  min-height: 36px;
+  display: inline-grid;
+  place-items: center;
+  padding: 7px 11px;
+  border-radius: 8px;
+  color: #172118;
+  font-size: 0.86rem;
+  font-weight: 900;
+  background: #f4d27f;
+}
+
+.action-goal {
+  max-width: 1180px;
+  margin: 0 auto 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.7fr) minmax(260px, 0.9fr);
+  gap: 10px;
+  align-items: stretch;
+}
+
+.action-goal > div {
+  min-height: 82px;
+  display: grid;
+  gap: 6px;
+  align-content: center;
+  padding: 12px 14px;
+  border: 1px solid rgba(245, 238, 221, 0.14);
+  border-radius: 8px;
+  background: rgba(14, 18, 29, 0.72);
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.2);
+}
+
+.action-goal strong {
+  color: #fff7df;
+  font-size: 1.05rem;
+}
+
+.action-goal span {
+  color: rgba(245, 238, 221, 0.78);
+  font-size: 0.92rem;
+}
+
+.key-ring {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.key-ring span {
+  min-height: 56px;
+  display: grid;
+  place-items: center;
+  gap: 2px;
+  border-radius: 8px;
+  color: rgba(245, 238, 221, 0.62);
+  font-size: 1.15rem;
+  font-weight: 900;
+  background: rgba(245, 238, 221, 0.08);
+  border: 1px solid rgba(245, 238, 221, 0.1);
+}
+
+.key-ring span.is-found {
+  color: #172118;
+  background: linear-gradient(135deg, #f4d27f, #c9f26b);
+  box-shadow: 0 0 26px rgba(201, 242, 107, 0.35);
+}
+
+.key-ring small {
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.zone-progress {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.zone-progress span {
+  min-height: 36px;
+  display: grid;
+  place-items: center;
+  padding: 6px;
+  border-radius: 8px;
+  color: rgba(245, 238, 221, 0.52);
+  font-size: 0.78rem;
+  font-weight: 800;
+  background: rgba(245, 238, 221, 0.07);
+}
+
+.zone-progress span.is-visited {
+  color: rgba(245, 238, 221, 0.9);
+  background: rgba(95, 182, 168, 0.18);
+}
+
+.zone-progress span.is-current {
+  color: #172118;
+  background: #c9f26b;
+}
+
+.energy-meter {
+  position: relative;
+  overflow: hidden;
+  justify-items: start;
+}
+
+.energy-meter i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
+  display: block;
+  background: linear-gradient(90deg, rgba(95, 182, 168, 0.48), rgba(201, 242, 107, 0.52));
+}
+
+.energy-meter b,
+.energy-meter {
+  z-index: 1;
+}
+
+.action-map {
+  width: min(100%, 1120px);
+  aspect-ratio: var(--map-ratio, 16 / 10);
+}
+
+.map-glade {
+  background:
+    radial-gradient(circle at 73% 21%, rgba(244, 210, 127, 0.28), transparent 6%),
+    radial-gradient(circle at 19% 66%, rgba(95, 182, 168, 0.2), transparent 12%),
+    linear-gradient(135deg, #254a3b 0%, #1d3f3f 54%, #1f3153 100%);
+}
+
+.map-orchard {
+  background:
+    repeating-linear-gradient(90deg, rgba(18, 43, 35, 0.18) 0 58px, transparent 58px 120px),
+    radial-gradient(circle at 75% 22%, rgba(255, 128, 111, 0.22), transparent 6%),
+    linear-gradient(135deg, #355f35 0%, #2a5749 54%, #263f5c 100%);
+}
+
+.map-maze {
+  background:
+    linear-gradient(90deg, rgba(245, 238, 221, 0.025) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(245, 238, 221, 0.025) 1px, transparent 1px),
+    radial-gradient(circle at 88% 18%, rgba(217, 165, 255, 0.16), transparent 10%),
+    linear-gradient(135deg, #243d43 0%, #263856 55%, #1d2e49 100%);
+  background-size:
+    48px 48px,
+    48px 48px,
+    auto,
+    auto;
+}
+
+.map-old-tree {
+  background:
+    radial-gradient(circle at 52% 29%, rgba(244, 210, 127, 0.26), transparent 18%),
+    radial-gradient(circle at 52% 31%, rgba(201, 242, 107, 0.16), transparent 28%),
+    linear-gradient(135deg, #243d36 0%, #244450 50%, #1c2d49 100%);
+}
+
+.map-path {
+  position: absolute;
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.16), transparent 46%),
+    rgba(198, 153, 88, 0.46);
+  box-shadow: inset 0 0 18px rgba(69, 47, 27, 0.22);
+}
+
+.map-decor {
+  position: absolute;
+  pointer-events: none;
+}
+
+.decor-apple-tree,
+.decor-old-tree {
+  border-radius: 48% 52% 42% 58%;
+  background:
+    radial-gradient(circle at 30% 34%, #ff8070 0 5%, transparent 6%),
+    radial-gradient(circle at 65% 28%, #f4d27f 0 5%, transparent 6%),
+    radial-gradient(circle at 50% 62%, rgba(201, 242, 107, 0.28), transparent 24%),
+    radial-gradient(ellipse at 50% 42%, #2f7d4b 0 56%, transparent 57%);
+  filter: drop-shadow(0 16px 14px rgba(0, 0, 0, 0.24));
+}
+
+.decor-apple-tree::after,
+.decor-old-tree::after {
+  content: "";
+  position: absolute;
+  left: 43%;
+  right: 43%;
+  bottom: -10%;
+  height: 36%;
+  border-radius: 6px;
+  background: #6d4930;
+}
+
+.decor-old-tree {
+  background:
+    radial-gradient(circle at 38% 38%, rgba(244, 210, 127, 0.5), transparent 10%),
+    radial-gradient(circle at 62% 40%, rgba(201, 242, 107, 0.3), transparent 12%),
+    radial-gradient(ellipse at 50% 45%, #315f35 0 58%, transparent 59%);
+  filter: drop-shadow(0 0 32px rgba(244, 210, 127, 0.22)) drop-shadow(0 20px 18px rgba(0, 0, 0, 0.28));
+}
+
+.decor-lantern {
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 50% 34%, #fff7df 0 14%, #f4d27f 15% 30%, transparent 31%),
+    linear-gradient(90deg, transparent 0 43%, #5a3a2f 44% 56%, transparent 57%);
+  box-shadow: 0 0 24px rgba(244, 210, 127, 0.5);
+}
+
+.decor-stones {
+  border-radius: 999px;
+  background:
+    radial-gradient(ellipse at 22% 54%, #9ba3ad 0 19%, transparent 20%),
+    radial-gradient(ellipse at 50% 45%, #747d8a 0 22%, transparent 23%),
+    radial-gradient(ellipse at 74% 58%, #a9b0bb 0 18%, transparent 19%);
+}
+
+.decor-root {
+  border-radius: 45% 55% 50% 50%;
+  background: linear-gradient(90deg, transparent 0 8%, rgba(92, 55, 31, 0.9) 10% 72%, transparent 74%);
+}
+
+.obstacle-tree,
+.obstacle-hedge,
+.obstacle-fence,
+.obstacle-log,
+.obstacle-water,
+.obstacle-blocks,
+.obstacle-root {
+  overflow: hidden;
+  color: rgba(255, 247, 223, 0.68);
+  font-weight: 800;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.38);
+}
+
+.obstacle-tree {
+  border-radius: 42% 52% 36% 50%;
+  background:
+    radial-gradient(circle at 32% 24%, rgba(255, 128, 111, 0.58) 0 8%, transparent 9%),
+    radial-gradient(circle at 68% 30%, rgba(244, 210, 127, 0.58) 0 8%, transparent 9%),
+    radial-gradient(ellipse at 50% 28%, #2f7546 0 62%, transparent 63%),
+    linear-gradient(90deg, transparent 0 42%, #70472d 43% 58%, transparent 59%);
+  border-color: rgba(201, 242, 107, 0.18);
+}
+
+.obstacle-hedge {
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 14px 12px, rgba(201, 242, 107, 0.24) 0 8px, transparent 9px),
+    radial-gradient(circle at 42px 30px, rgba(143, 217, 128, 0.28) 0 10px, transparent 11px),
+    linear-gradient(135deg, #1d5536, #173c30);
+}
+
+.obstacle-fence {
+  border-radius: 4px;
+  background:
+    repeating-linear-gradient(90deg, #8a5d35 0 16px, #6d4930 16px 22px),
+    #6d4930;
+}
+
+.obstacle-log,
+.obstacle-root {
+  border-radius: 999px;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.07) 0 7px, transparent 7px 18px),
+    linear-gradient(135deg, #7a4b2c, #4f321f);
+}
+
+.obstacle-water {
+  border-radius: 42% 58% 52% 48%;
+  background:
+    radial-gradient(circle at 70% 35%, rgba(245, 238, 221, 0.18), transparent 18%),
+    linear-gradient(135deg, rgba(95, 182, 168, 0.75), rgba(38, 91, 122, 0.88));
+}
+
+.obstacle-blocks {
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(255, 128, 111, 0.85) 0 25%, rgba(244, 210, 127, 0.88) 25% 50%, rgba(143, 217, 128, 0.82) 50% 75%, rgba(139, 214, 255, 0.82) 75%),
+    #8fd980;
+}
+
+.map-obstacle.is-open {
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+.hazard-thorn {
+  border-radius: 35% 60% 38% 62%;
+  background:
+    linear-gradient(45deg, transparent 0 42%, #f4d27f 43% 49%, transparent 50%),
+    linear-gradient(-45deg, transparent 0 42%, #f4d27f 43% 49%, transparent 50%),
+    #4d6638;
+  border-color: rgba(244, 210, 127, 0.88);
+}
+
+.hazard-sticky {
+  border-radius: 42% 58% 56% 44%;
+  background:
+    radial-gradient(circle at 36% 40%, rgba(245, 238, 221, 0.22), transparent 20%),
+    rgba(71, 116, 54, 0.7);
+  border-color: rgba(143, 217, 128, 0.82);
+}
+
+.hazard-spark,
+.enemy-wisp {
+  border-radius: 50%;
+  color: #172118;
+  background:
+    radial-gradient(circle at 50% 42%, #fff7df 0 18%, #f4d27f 19% 38%, rgba(201, 242, 107, 0.48) 39% 58%, transparent 60%);
+  border-color: rgba(245, 238, 221, 0.72);
+  box-shadow: 0 0 28px rgba(244, 210, 127, 0.48);
+  animation: wispFloat 1.6s ease-in-out infinite;
+}
+
+.enemy-wisp.is-chaser {
+  box-shadow: 0 0 32px rgba(217, 165, 255, 0.62);
+}
+
+.map-helper {
+  border-radius: 12px;
+  transform: translate(-50%, -50%) rotate(-2deg);
+}
+
+.helper-cat {
+  background:
+    radial-gradient(circle at 30% 24%, #1b1736 0 7%, transparent 8%),
+    radial-gradient(circle at 70% 24%, #1b1736 0 7%, transparent 8%),
+    linear-gradient(135deg, #d8d3c8, #f5eedd);
+  color: #201829;
+}
+
+.helper-teffi {
+  background:
+    radial-gradient(circle at 34% 34%, #1b1736 0 6%, transparent 7%),
+    radial-gradient(circle at 66% 34%, #1b1736 0 6%, transparent 7%),
+    linear-gradient(135deg, #b99f88, #f0c08c);
+}
+
+.helper-rhythm {
+  background: linear-gradient(135deg, #c9f26b, #5fb6a8);
+}
+
+.helper-sign {
+  background: linear-gradient(135deg, #a67846, #f4d27f);
+}
+
+.map-item {
+  min-width: 58px;
+  min-height: 42px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 5px;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.item-icon {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  color: #172118;
+  background: rgba(255, 255, 255, 0.48);
+}
+
+.item-label {
+  white-space: nowrap;
+}
+
+.item-key-leaf,
+.item-key-apple,
+.item-key-star {
+  color: #172118;
+  background: linear-gradient(135deg, #f4d27f, #c9f26b);
+  box-shadow: 0 0 32px rgba(244, 210, 127, 0.5);
+}
+
+.item-key-apple {
+  background: linear-gradient(135deg, #ff8070, #f4d27f);
+}
+
+.item-key-star {
+  background: linear-gradient(135deg, #d9a5ff, #f4d27f);
+}
+
+.item-cube {
+  background: linear-gradient(135deg, #8fd980, #f4d27f);
+}
+
+.item-step {
+  background: linear-gradient(135deg, #5fb6a8, #c9f26b);
+}
+
+.item-root-light {
+  color: #172118;
+  background: linear-gradient(135deg, #fff7df, #c9f26b);
+  box-shadow: 0 0 34px rgba(201, 242, 107, 0.62);
+}
+
+.map-item.is-hidden {
+  filter: blur(1px);
+}
+
+.action-map.is-revealing .map-item.is-hidden {
+  opacity: 0.52;
+  filter: none;
+}
+
+.exit-zone {
+  z-index: 2;
+  border-radius: 18px;
+  transition:
+    opacity 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.exit-zone.is-locked {
+  color: rgba(245, 238, 221, 0.72);
+  background: rgba(31, 34, 47, 0.58);
+  border-color: rgba(245, 238, 221, 0.22);
+  box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.24);
+}
+
+.exit-zone.is-open {
+  color: #172118;
+  background: linear-gradient(135deg, rgba(201, 242, 107, 0.68), rgba(244, 210, 127, 0.56));
+}
+
+.map-player.player-polina {
+  width: 42px;
+  height: 50px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.polina-sprite {
+  position: relative;
+  width: 34px;
+  height: 46px;
+  display: block;
+  filter: drop-shadow(0 8px 9px rgba(0, 0, 0, 0.32));
+}
+
+.polina-hair,
+.polina-face,
+.polina-glasses,
+.polina-body,
+.polina-feet {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.polina-hair {
+  top: 0;
+  width: 26px;
+  height: 22px;
+  border-radius: 12px 12px 9px 9px;
+  background: #1d1820;
+}
+
+.polina-face {
+  top: 7px;
+  width: 22px;
+  height: 20px;
+  border-radius: 9px;
+  background: #f1c49f;
+}
+
+.polina-glasses {
+  top: 13px;
+  width: 25px;
+  height: 8px;
+  background:
+    radial-gradient(circle at 7px 4px, transparent 0 4px, #17132a 4.5px 5.8px, transparent 6px),
+    radial-gradient(circle at 18px 4px, transparent 0 4px, #17132a 4.5px 5.8px, transparent 6px),
+    linear-gradient(#17132a, #17132a) center / 6px 2px no-repeat;
+}
+
+.polina-body {
+  top: 25px;
+  width: 24px;
+  height: 17px;
+  border-radius: 7px 7px 4px 4px;
+  background: linear-gradient(135deg, #ffd37a, #5fb6a8);
+}
+
+.polina-feet {
+  top: 40px;
+  width: 24px;
+  height: 6px;
+  background:
+    linear-gradient(90deg, #1b1736 0 8px, transparent 8px 16px, #1b1736 16px 24px);
+}
+
+.map-player.is-moving .polina-feet {
+  animation: tinySteps 260ms steps(2, end) infinite;
+}
+
+.map-player.dash-active .polina-sprite::after {
+  content: "";
+  position: absolute;
+  left: -18px;
+  top: 18px;
+  width: 18px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(245, 238, 221, 0.72);
+  box-shadow: -12px 2px 0 rgba(201, 242, 107, 0.45);
+}
+
+.map-player.ability-active .polina-glasses {
+  filter: drop-shadow(0 0 8px #c9f26b);
+}
+
+.action-intro-backdrop {
+  position: fixed;
+  z-index: 120;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background:
+    radial-gradient(circle at 50% 34%, rgba(244, 210, 127, 0.16), transparent 24%),
+    rgba(8, 10, 18, 0.78);
+  backdrop-filter: blur(8px);
+}
+
+.action-intro {
+  width: min(640px, 100%);
+  display: grid;
+  gap: 14px;
+  padding: 26px;
+  border: 1px solid rgba(245, 238, 221, 0.18);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 88% 12%, rgba(201, 242, 107, 0.14), transparent 22%),
+    #17132a;
+  box-shadow: 0 24px 90px rgba(0, 0, 0, 0.48);
+}
+
+.action-intro h2 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+
+.action-intro p {
+  margin: 0;
+}
+
+@keyframes wispFloat {
+  0%,
+  100% {
+    transform: scale(0.94);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes tinySteps {
+  0% {
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    transform: translateX(-50%) translateY(2px);
+  }
+}

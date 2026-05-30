@@ -25,6 +25,10 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .action-goal {
+    grid-template-columns: 1fr;
+  }
+
   .action-bottom {
     grid-template-columns: 1fr;
   }
@@ -183,6 +187,11 @@
     font-size: 0.86rem;
   }
 
+  .key-ring,
+  .zone-progress {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .action-map-wrap {
     padding: 8px;
   }
@@ -200,6 +209,11 @@
     min-width: 28px;
     min-height: 28px;
     padding: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .item-label {
+    display: none;
   }
 
   .map-helper {
@@ -268,7 +282,7 @@
     display: grid;
     gap: 8px;
     align-content: end;
-    width: 132px;
+    width: 136px;
     pointer-events: auto;
   }
 }
@@ -356,6 +370,19 @@
 
   .action-hud {
     grid-template-columns: 1fr;
+  }
+
+  .action-goal > div {
+    min-height: auto;
+  }
+
+  .key-ring,
+  .zone-progress {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-facts {
+    display: grid;
   }
 
   .action-bottom {
