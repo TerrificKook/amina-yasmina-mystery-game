@@ -665,6 +665,8 @@ export default function ActionGameScreen() {
           <div
             className={`exit-zone ${zoneMissing.length === 0 ? 'is-open' : 'is-locked'}`}
             data-exit-zone="true"
+            title={zone.exit.label}
+            aria-label={zone.exit.label}
             style={{
               left: sx(zone.exit.x),
               top: sy(zone.exit.y),
@@ -672,7 +674,7 @@ export default function ActionGameScreen() {
               height: sy(zone.exit.h),
             }}
           >
-            {zone.exit.label}
+            <span className="map-object-label">{zone.exit.label}</span>
           </div>
 
           {(zone.obstacles || []).map((obstacle) => (
@@ -680,6 +682,8 @@ export default function ActionGameScreen() {
               className={`map-obstacle obstacle-${obstacle.kind || 'solid'} ${isObstacleOpen(obstacle) ? 'is-open' : ''}`}
               data-obstacle-id={obstacle.id}
               key={obstacle.id}
+              title={obstacle.label}
+              aria-label={obstacle.label}
               style={{
                 left: sx(obstacle.x),
                 top: sy(obstacle.y),
@@ -687,7 +691,7 @@ export default function ActionGameScreen() {
                 height: sy(obstacle.h),
               }}
             >
-              {obstacle.label}
+              <span className="map-object-label">{obstacle.label}</span>
             </div>
           ))}
 
@@ -696,6 +700,8 @@ export default function ActionGameScreen() {
               className={`map-hazard hazard-${hazard.type} ${hazard.effect === 'slow' ? 'is-slow' : ''}`}
               data-hazard-id={hazard.id}
               key={hazard.id}
+              title={hazard.label}
+              aria-label={hazard.label}
               style={{
                 left: sx(hazard.x - hazard.r),
                 top: sy(hazard.y - hazard.r),
@@ -703,7 +709,7 @@ export default function ActionGameScreen() {
                 height: sy(hazard.r * 2),
               }}
             >
-              {hazard.label}
+              <span className="map-object-label">{hazard.label}</span>
             </div>
           ))}
 
@@ -712,6 +718,8 @@ export default function ActionGameScreen() {
               className={`map-enemy enemy-${enemy.type || 'wisp'} ${enemy.ai === 'chase' ? 'is-chaser' : ''}`}
               data-enemy-id={enemy.id}
               key={enemy.id}
+              title={enemy.label}
+              aria-label={enemy.label}
               style={{
                 left: sx(enemy.x - enemy.r),
                 top: sy(enemy.y - enemy.r),
@@ -719,7 +727,7 @@ export default function ActionGameScreen() {
                 height: sy(enemy.r * 2),
               }}
             >
-              {enemy.label}
+              <span className="map-object-label">{enemy.label}</span>
             </div>
           ))}
 
@@ -728,9 +736,11 @@ export default function ActionGameScreen() {
               className={`map-helper helper-${helper.type}`}
               data-helper-id={helper.id}
               key={helper.id}
+              title={helper.label}
+              aria-label={helper.label}
               style={{ left: sx(helper.x), top: sy(helper.y) }}
             >
-              {helper.label}
+              <span className="map-object-label">{helper.label}</span>
             </div>
           ))}
 
@@ -744,6 +754,8 @@ export default function ActionGameScreen() {
                 }`}
                 data-item-id={item.id}
                 key={item.id}
+                title={item.label}
+                aria-label={item.label}
                 style={{ left: sx(item.x), top: sy(item.y) }}
               >
                 <span className="item-icon">{getItemIcon(item)}</span>
@@ -771,16 +783,16 @@ export default function ActionGameScreen() {
 
       <section className="mobile-controls" aria-label="Управление на телефоне">
         <div className="mobile-stick">
-          <button type="button" aria-label="Вверх" onPointerDown={() => setMobileDir({ x: 0, y: -1 })} onPointerUp={stopMobileMove} onPointerCancel={stopMobileMove}>
+          <button type="button" aria-label="Вверх" onPointerDown={() => setMobileDir({ x: 0, y: -1 })} onPointerUp={stopMobileMove} onPointerCancel={stopMobileMove} onPointerLeave={stopMobileMove}>
             ▲
           </button>
-          <button type="button" aria-label="Влево" onPointerDown={() => setMobileDir({ x: -1, y: 0 })} onPointerUp={stopMobileMove} onPointerCancel={stopMobileMove}>
+          <button type="button" aria-label="Влево" onPointerDown={() => setMobileDir({ x: -1, y: 0 })} onPointerUp={stopMobileMove} onPointerCancel={stopMobileMove} onPointerLeave={stopMobileMove}>
             ◀
           </button>
-          <button type="button" aria-label="Вправо" onPointerDown={() => setMobileDir({ x: 1, y: 0 })} onPointerUp={stopMobileMove} onPointerCancel={stopMobileMove}>
+          <button type="button" aria-label="Вправо" onPointerDown={() => setMobileDir({ x: 1, y: 0 })} onPointerUp={stopMobileMove} onPointerCancel={stopMobileMove} onPointerLeave={stopMobileMove}>
             ▶
           </button>
-          <button type="button" aria-label="Вниз" onPointerDown={() => setMobileDir({ x: 0, y: 1 })} onPointerUp={stopMobileMove} onPointerCancel={stopMobileMove}>
+          <button type="button" aria-label="Вниз" onPointerDown={() => setMobileDir({ x: 0, y: 1 })} onPointerUp={stopMobileMove} onPointerCancel={stopMobileMove} onPointerLeave={stopMobileMove}>
             ▼
           </button>
         </div>
