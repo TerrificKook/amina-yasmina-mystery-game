@@ -66,6 +66,7 @@ export const actionLevels = {
         start: { x: 90, y: 600 },
         intro: 'Квартира в Красногорске. Найдите первую страницу дневника и включите маленькую лампу у окна.',
         goal: 'Найди страницу чердака и искру лампы.',
+        objectiveShort: 'Собери страницу и искру лампы',
         hint: 'Амина может подсветить скрытую страницу. Скиппи рядом с важными местами.',
         requiredForExit: ['diary-page-1', 'lamp-spark'],
         lockedMessage: 'Дневник не откроет лесную тропу без первой страницы и искры лампы.',
@@ -94,10 +95,10 @@ export const actionLevels = {
         ],
         hazards: [
           { id: 'dust-flat', type: 'sticky', effect: 'slow', x: 470, y: 532, r: 42, label: 'Пыльный ковёр' },
-          { id: 'cold-flat', type: 'spark', x: 814, y: 248, r: 28, label: 'Холодный блик' },
+          { id: 'cold-flat', type: 'spark', x: 814, y: 248, r: 28, label: 'Холодный огонёк' },
         ],
         enemies: [
-          { id: 'rustle-flat', type: 'shadow', x: 642, y: 270, minX: 520, maxX: 830, speed: 58, r: 23, label: 'Шорох' },
+          { id: 'rustle-flat', type: 'shadow', x: 642, y: 270, minX: 520, maxX: 830, speed: 50, r: 23, label: 'Шорох с глазами' },
         ],
         helpers: [
           {
@@ -144,6 +145,7 @@ export const actionLevels = {
         start: { x: 82, y: 600 },
         intro: 'Лесная тропа начинается прямо из дневника. Тэфи оставила следы у скрытого поворота.',
         goal: 'Собери 3 следа Тэфи и вторую страницу дневника.',
+        objectiveShort: 'Собери 3 следа и страницу',
         hint: 'Следы ведут к безопасной тропе. Колючки и шорохи обходи, мох замедляет.',
         requiredForExit: ['teffi-track-1', 'teffi-track-2', 'teffi-track-3', 'diary-page-2'],
         lockedMessage: 'Лавка не появится без следов Тэфи и второй страницы.',
@@ -172,11 +174,11 @@ export const actionLevels = {
         hazards: [
           { id: 'thorn-forest-a', type: 'thorn', x: 332, y: 520, r: 32, label: 'Колючки' },
           { id: 'moss-forest', type: 'sticky', effect: 'slow', x: 586, y: 486, r: 48, label: 'Сырой мох' },
-          { id: 'spark-forest', type: 'spark', x: 828, y: 186, r: 30, label: 'Огонёк' },
+          { id: 'spark-forest', type: 'spark', x: 828, y: 186, r: 30, label: 'Стоячий огонёк' },
         ],
         enemies: [
-          { id: 'wisp-forest-a', type: 'wisp', x: 448, y: 282, minX: 390, maxX: 650, speed: 70, r: 23, label: 'Огонёк' },
-          { id: 'wisp-forest-b', type: 'wisp', axis: 'y', x: 704, y: 528, minY: 248, maxY: 618, speed: 72, r: 23, label: 'Огонёк' },
+          { id: 'wisp-forest-a', type: 'wisp', x: 448, y: 282, minX: 390, maxX: 650, speed: 62, r: 23, label: 'Блуждающий огонёк' },
+          { id: 'wisp-forest-b', type: 'wisp', axis: 'y', x: 704, y: 528, minY: 248, maxY: 618, speed: 64, r: 23, label: 'Блуждающий огонёк' },
         ],
         helpers: [
           {
@@ -224,6 +226,7 @@ export const actionLevels = {
         start: { x: 88, y: 592 },
         intro: 'Лавка выглядит тесной, но внутри прячется целая карта. Полки шепчут только тем, кто собирает жетоны.',
         goal: 'Собери 3 лавочных жетона и третью страницу дневника.',
+        objectiveShort: 'Собери 3 жетона и страницу',
         hint: 'Скиппи даёт защиту, а Амина подсвечивает страницу между полками.',
         requiredForExit: ['shop-token-1', 'shop-token-2', 'shop-token-3', 'diary-page-3'],
         lockedMessage: 'Озёрная дверь не откроется без жетонов лавки и третьей страницы.',
@@ -251,11 +254,11 @@ export const actionLevels = {
         ],
         hazards: [
           { id: 'rustle-dust', type: 'sticky', effect: 'slow', x: 548, y: 246, r: 44, label: 'Пыльный шорох' },
-          { id: 'shop-spark', type: 'spark', x: 708, y: 432, r: 30, label: 'Блик' },
+          { id: 'shop-spark', type: 'spark', x: 708, y: 432, r: 30, label: 'Острый блик' },
         ],
         enemies: [
-          { id: 'shop-shadow-a', type: 'shadow', ai: 'chase', x: 520, y: 594, speed: 70, r: 24, aggro: 220, label: 'Шорох' },
-          { id: 'shop-shadow-b', type: 'shadow', x: 894, y: 166, minX: 650, maxX: 960, speed: 66, r: 24, label: 'Шорох' },
+          { id: 'shop-shadow-a', type: 'shadow', ai: 'chase', x: 520, y: 594, speed: 68, r: 24, aggro: 210, label: 'Шорох-преследователь' },
+          { id: 'shop-shadow-b', type: 'shadow', x: 894, y: 166, minX: 650, maxX: 960, speed: 62, r: 24, label: 'Шорох с глазами' },
         ],
         helpers: [
           {
@@ -302,6 +305,7 @@ export const actionLevels = {
         start: { x: 96, y: 606 },
         intro: 'Финальная поляна. Страницы собраны, но Светлячковый ключ ещё нужно зажечь.',
         goal: 'Собери 3 озёрных огня и ядро Светлячкового ключа.',
+        objectiveShort: 'Собери 3 огня и ядро ключа',
         hint: 'Огоньки быстрее, вода холодная, а Скиппи снова делает вид, что всё контролирует.',
         requiredForExit: ['diary-page-1', 'diary-page-2', 'diary-page-3', 'firefly-core', 'lake-light-1', 'lake-light-2', 'lake-light-3'],
         lockedMessage: 'Озеро ждёт три огня и ядро Светлячкового ключа.',
@@ -331,9 +335,9 @@ export const actionLevels = {
           { id: 'lake-thorn', type: 'thorn', x: 792, y: 578, r: 34, label: 'Колючки' },
         ],
         enemies: [
-          { id: 'lake-wisp-a', type: 'wisp', ai: 'chase', x: 424, y: 394, speed: 82, r: 24, aggro: 245, label: 'Огонёк' },
-          { id: 'lake-wisp-b', type: 'wisp', ai: 'chase', x: 790, y: 294, speed: 82, r: 24, aggro: 245, label: 'Огонёк' },
-          { id: 'lake-wisp-c', type: 'wisp', x: 558, y: 560, minX: 410, maxX: 820, speed: 76, r: 23, label: 'Огонёк' },
+          { id: 'lake-wisp-a', type: 'wisp', ai: 'chase', x: 424, y: 394, speed: 80, r: 24, aggro: 235, label: 'Преследующий огонёк' },
+          { id: 'lake-wisp-b', type: 'wisp', ai: 'chase', x: 790, y: 294, speed: 80, r: 24, aggro: 235, label: 'Преследующий огонёк' },
+          { id: 'lake-wisp-c', type: 'wisp', x: 558, y: 560, minX: 410, maxX: 820, speed: 72, r: 23, label: 'Блуждающий огонёк' },
         ],
         helpers: [
           {
@@ -431,6 +435,7 @@ export const actionLevels = {
         start: { x: 86, y: 612 },
         intro: 'Стартовая поляна. Найди Лист ключа: он спрятан там, где обычный взгляд видит только траву.',
         goal: 'Найди Лист ключа и выйди в яблоневый сад.',
+        objectiveShort: 'Включи очки и найди Лист ключа',
         hint: 'Нажми пробел, чтобы включить Очки Полины и увидеть скрытый предмет.',
         requiredForExit: ['key-leaf'],
         lockedMessage: 'Ворота в сад ждут Лист ключа.',
@@ -459,11 +464,11 @@ export const actionLevels = {
         hazards: [
           { id: 'thorn-glade', type: 'thorn', x: 484, y: 342, r: 32, label: 'Колючки' },
           { id: 'sticky-glade', type: 'sticky', effect: 'slow', x: 574, y: 542, r: 46, label: 'Липкая трава' },
-          { id: 'cold-spark', type: 'spark', x: 776, y: 318, r: 28, label: 'Огонёк' },
+          { id: 'cold-spark', type: 'spark', x: 776, y: 318, r: 28, label: 'Стоячий огонёк' },
         ],
         enemies: [
-          { id: 'wisp-glade-1', type: 'wisp', x: 342, y: 292, minX: 292, maxX: 620, speed: 62, r: 22, label: 'Огонёк' },
-          { id: 'wisp-glade-2', type: 'wisp', axis: 'y', x: 872, y: 520, minY: 378, maxY: 610, speed: 56, r: 22, label: 'Огонёк' },
+          { id: 'wisp-glade-1', type: 'wisp', x: 420, y: 292, minX: 382, maxX: 620, speed: 50, r: 22, label: 'Блуждающий огонёк' },
+          { id: 'wisp-glade-2', type: 'wisp', axis: 'y', x: 872, y: 520, minY: 398, maxY: 610, speed: 48, r: 22, label: 'Блуждающий огонёк' },
         ],
         helpers: [
           {
@@ -508,6 +513,7 @@ export const actionLevels = {
         start: { x: 82, y: 356 },
         intro: 'Яблоневый сад устроен как блочная головоломка. Собери садовые кубики и найди Яблоко ключа.',
         goal: 'Собери 4 садовых кубика и Яблоко ключа.',
+        objectiveShort: 'Собери 4 кубика и Яблоко ключа',
         hint: 'Кубики похожи на строительные блоки: лист, яблоко, тропинка и звезда открывают проход дальше.',
         requiredForExit: ['cube-leaf', 'cube-apple', 'cube-path', 'cube-star', 'key-apple'],
         lockedMessage: 'Тропа в лабиринт сложится только после всех кубиков и Яблока ключа.',
@@ -536,11 +542,11 @@ export const actionLevels = {
         hazards: [
           { id: 'thorn-orchard', type: 'thorn', x: 514, y: 306, r: 34, label: 'Колючки' },
           { id: 'sticky-orchard', type: 'sticky', effect: 'slow', x: 724, y: 536, r: 48, label: 'Липкая трава' },
-          { id: 'spark-orchard', type: 'spark', x: 920, y: 186, r: 30, label: 'Огонёк' },
+          { id: 'spark-orchard', type: 'spark', x: 920, y: 186, r: 30, label: 'Стоячий огонёк' },
         ],
         enemies: [
-          { id: 'wisp-orchard-1', type: 'wisp', x: 282, y: 392, minX: 228, maxX: 536, speed: 72, r: 23, label: 'Огонёк' },
-          { id: 'wisp-orchard-2', type: 'wisp', axis: 'y', x: 842, y: 366, minY: 150, maxY: 610, speed: 66, r: 23, label: 'Огонёк' },
+          { id: 'wisp-orchard-1', type: 'wisp', x: 282, y: 392, minX: 228, maxX: 536, speed: 66, r: 23, label: 'Блуждающий огонёк' },
+          { id: 'wisp-orchard-2', type: 'wisp', axis: 'y', x: 842, y: 366, minY: 150, maxY: 610, speed: 62, r: 23, label: 'Блуждающий огонёк' },
         ],
         helpers: [
           {
@@ -590,6 +596,7 @@ export const actionLevels = {
         start: { x: 82, y: 618 },
         intro: 'Лабиринт ожил. Здесь огоньки уже не просто патрулируют: некоторые замечают Полину и летят ближе.',
         goal: 'Собери 4 танцевальных шага и Звезду ключа.',
+        objectiveShort: 'Собери 4 шага и Звезду ключа',
         hint: 'Порядок шагов: хлопок, вправо, влево, поклон. Рывок помогает проходить между огоньками.',
         requiredForExit: ['step-clap', 'step-right', 'step-left', 'step-bow', 'key-star'],
         lockedMessage: 'Финальная поляна не откроется без танцевального узора и Звезды ключа.',
@@ -621,12 +628,12 @@ export const actionLevels = {
         hazards: [
           { id: 'maze-thorn', type: 'thorn', x: 398, y: 326, r: 32, label: 'Колючки' },
           { id: 'maze-sticky', type: 'sticky', effect: 'slow', x: 724, y: 372, r: 44, label: 'Липкая трава' },
-          { id: 'maze-spark', type: 'spark', x: 880, y: 236, r: 30, label: 'Огонёк' },
+          { id: 'maze-spark', type: 'spark', x: 880, y: 236, r: 30, label: 'Стоячий огонёк' },
         ],
         enemies: [
-          { id: 'wisp-maze-1', type: 'wisp', ai: 'chase', x: 526, y: 218, speed: 76, r: 23, aggro: 210, label: 'Огонёк' },
-          { id: 'wisp-maze-2', type: 'wisp', ai: 'chase', x: 846, y: 306, speed: 78, r: 23, aggro: 230, label: 'Огонёк' },
-          { id: 'wisp-maze-3', type: 'wisp', axis: 'y', x: 246, y: 420, minY: 120, maxY: 610, speed: 68, r: 22, label: 'Огонёк' },
+          { id: 'wisp-maze-1', type: 'wisp', ai: 'chase', x: 526, y: 218, speed: 76, r: 23, aggro: 210, label: 'Преследующий огонёк' },
+          { id: 'wisp-maze-2', type: 'wisp', ai: 'chase', x: 846, y: 306, speed: 78, r: 23, aggro: 230, label: 'Преследующий огонёк' },
+          { id: 'wisp-maze-3', type: 'wisp', axis: 'y', x: 246, y: 420, minY: 120, maxY: 610, speed: 66, r: 22, label: 'Блуждающий огонёк' },
         ],
         helpers: [
           {
@@ -674,6 +681,7 @@ export const actionLevels = {
         start: { x: 92, y: 610 },
         intro: 'Финальная поляна. Ключ собран, но корням нужно вернуть три искры света.',
         goal: 'Собери 3 корневые искры и войди в свет Старой Яблони.',
+        objectiveShort: 'Собери 3 искры у корней',
         hint: 'Огоньки здесь быстрее. Пользуйся рывком и не стой в липкой траве.',
         requiredForExit: ['key-leaf', 'key-apple', 'key-star', 'root-light-1', 'root-light-2', 'root-light-3'],
         lockedMessage: 'Старая Яблоня ещё спит. Верни свет трём корням.',
@@ -701,12 +709,12 @@ export const actionLevels = {
         hazards: [
           { id: 'final-thorn-a', type: 'thorn', x: 326, y: 506, r: 34, label: 'Колючки' },
           { id: 'final-sticky-a', type: 'sticky', effect: 'slow', x: 746, y: 504, r: 50, label: 'Липкая трава' },
-          { id: 'final-spark-a', type: 'spark', x: 650, y: 430, r: 32, label: 'Огонёк' },
+          { id: 'final-spark-a', type: 'spark', x: 650, y: 430, r: 32, label: 'Стоячий огонёк' },
         ],
         enemies: [
-          { id: 'wisp-final-1', type: 'wisp', ai: 'chase', x: 402, y: 410, speed: 82, r: 24, aggro: 250, label: 'Огонёк' },
-          { id: 'wisp-final-2', type: 'wisp', ai: 'chase', x: 738, y: 268, speed: 84, r: 24, aggro: 250, label: 'Огонёк' },
-          { id: 'wisp-final-3', type: 'wisp', x: 560, y: 560, minX: 340, maxX: 790, speed: 78, r: 23, label: 'Огонёк' },
+          { id: 'wisp-final-1', type: 'wisp', ai: 'chase', x: 402, y: 410, speed: 82, r: 24, aggro: 250, label: 'Преследующий огонёк' },
+          { id: 'wisp-final-2', type: 'wisp', ai: 'chase', x: 738, y: 268, speed: 84, r: 24, aggro: 250, label: 'Преследующий огонёк' },
+          { id: 'wisp-final-3', type: 'wisp', x: 560, y: 560, minX: 340, maxX: 790, speed: 76, r: 23, label: 'Блуждающий огонёк' },
         ],
         helpers: [
           {

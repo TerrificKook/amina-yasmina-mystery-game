@@ -1,12 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { actionLevels } from '../../data/actionLevels.js';
+import { roomBriefs } from '../../data/roomBriefs.js';
 import { useGame } from '../../context/GameContext.jsx';
 import CharacterSprite from '../ui/CharacterSprite.jsx';
 import SoundToggle from '../ui/SoundToggle.jsx';
 
 const playerSize = 34;
 const itemRadius = 28;
-const helperRadius = 62;
+const helperRadius = 82;
+const contextRadius = 92;
+const exitNoticeRadius = 150;
+const dangerNoticeRadius = 102;
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
@@ -33,8 +37,32 @@ function getMoveVector(keys, mobileDir) {
   if (keys.has('ArrowUp') || keys.has('KeyW')) y -= 1;
   if (keys.has('ArrowDown') || keys.has('KeyS')) y += 1;
 
+  if (x && y) {
+    y = 0;
+  }
+
   const length = Math.hypot(x, y);
   return length ? { x: x / length, y: y / length } : { x: 0, y: 0 };
+}
+
+function getJoystickDirection(event, element) {
+  const rect = element.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  const dx = event.clientX - centerX;
+  const dy = event.clientY - centerY;
+
+  if (Math.max(Math.abs(dx), Math.abs(dy)) < rect.width * 0.12) {
+    return { x: 0, y: 0 };
+  }
+
+  return Math.abs(dx) > Math.abs(dy)
+    ? { x: Math.sign(dx), y: 0 }
+    : { x: 0, y: Math.sign(dy) };
+}
+
+function uniqueLabels(items) {
+  return Array.from(new Set(items.map((item) => item.label).filter(Boolean)));
 }
 
 function makeLegacyZone(level) {
@@ -89,6 +117,18 @@ function getItemIcon(item) {
   return '!';
 }
 
+function getRoomBrief(storyId, zone, index, total) {
+  const saved = roomBriefs[storyId]?.[zone.id];
+  if (saved) return saved;
+
+  return {
+    kicker: `Комната ${index + 1}/${total}`,
+    title: zone.shortTitle || zone.title,
+    text: zone.intro || 'Соберите нужные предметы, откройте дверь и переходите дальше.',
+    tip: zone.hint || 'Держитесь проходов, обходите опасности и проверяйте помощников кнопкой действия.',
+  };
+}
+
 export default function ActionGameScreen() {
   const { storyId, character, currentStory, finishActionRun, restartStory } = useGame();
   const level = actionLevels[storyId] || actionLevels.polina;
@@ -111,6 +151,8 @@ export default function ActionGameScreen() {
   const [invulnerableUntil, setInvulnerableUntil] = useState(0);
   const [enemies, setEnemies] = useState(() => makeEnemies(zone));
   const [introIndex, setIntroIndex] = useState(level.intro?.length ? 0 : Number.POSITIVE_INFINITY);
+  const [roomBriefOpen, setRoomBriefOpen] = useState(false);
+  const [seenRoomBriefs, setSeenRoomBriefs] = useState([]);
   const [isMoving, setIsMoving] = useState(false);
 
   const keysRef = useRef(new Set());
@@ -120,6 +162,7 @@ export default function ActionGameScreen() {
   const revealedRef = useRef(revealed);
   const enemiesRef = useRef(enemies);
   const mobileDirRef = useRef(mobileDir);
+  const mobileStickRef = useRef(null);
   const lastDirRef = useRef({ x: 1, y: 0 });
   const movingRef = useRef(false);
   const damageCooldownRef = useRef(0);
@@ -148,6 +191,7 @@ export default function ActionGameScreen() {
   );
   const zoneRequired = zone.requiredForExit || level.requiredIds;
   const zoneMissing = zoneRequired.filter((id) => !collected.includes(id));
+  const zoneCollectedCount = zoneRequired.length - zoneMissing.length;
   const finalRequired = level.finalRequiredIds || level.requiredIds;
   const finalMissing = finalRequired.filter((id) => !collected.includes(id));
   const rootLightCount = ['root-light-1', 'root-light-2', 'root-light-3'].filter((id) => collected.includes(id)).length;
@@ -157,6 +201,18 @@ export default function ActionGameScreen() {
   const labelFor = useCallback(
     (id) => itemIndex.get(id)?.label || itemIndex.get(id)?.labelShort || id,
     [itemIndex],
+  );
+  const roomBrief = useMemo(
+    () => getRoomBrief(storyId, zone, zoneIndex, zones.length),
+    [storyId, zone, zoneIndex, zones.length],
+  );
+  const roomPlan = useMemo(
+    () => ({
+      collect: roomBrief.collect || zoneRequired.map(labelFor),
+      avoid: roomBrief.avoid || uniqueLabels([...(zone.hazards || []), ...(zone.enemies || [])]).slice(0, 4),
+      exit: roomBrief.exit || zone.exit?.label || 'Следующий проход',
+    }),
+    [labelFor, roomBrief, zone.enemies, zone.exit?.label, zone.hazards, zoneRequired],
   );
 
   const setPlayerPosition = useCallback((position) => {
@@ -181,6 +237,8 @@ export default function ActionGameScreen() {
     setEnemies(startEnemies);
     enemiesRef.current = startEnemies;
     setIntroIndex(level.intro?.length ? 0 : Number.POSITIVE_INFINITY);
+    setRoomBriefOpen(false);
+    setSeenRoomBriefs([]);
     setMessage(level.messages.start);
     wonRef.current = false;
   }, [level.intro?.length, level.messages.start, maxHealth, setPlayerPosition, zones]);
@@ -200,6 +258,12 @@ export default function ActionGameScreen() {
     setMessage(zone.intro || level.messages.start);
     setVisitedZones((current) => (current.includes(zone.id) ? current : [...current, zone.id]));
   }, [level.messages.start, setPlayerPosition, zone]);
+
+  useEffect(() => {
+    if (!introActive && zone.id && !seenRoomBriefs.includes(zone.id)) {
+      setRoomBriefOpen(true);
+    }
+  }, [introActive, seenRoomBriefs, zone.id]);
 
   useEffect(() => {
     playerRef.current = player;
@@ -306,34 +370,130 @@ export default function ActionGameScreen() {
     const currentPlayer = playerRef.current;
     const nearestHelper = (zone.helpers || []).find((helper) => distance(currentPlayer, helper) < helperRadius);
 
-    if (!nearestHelper) {
-      setMessage(level.messages.actionEmpty);
+    if (nearestHelper) {
+      if (nearestHelper.revealHidden) {
+        revealSecrets(nearestHelper.message);
+      } else {
+        setMessage(nearestHelper.message);
+      }
+
+      if (nearestHelper.heal) {
+        setHealth((current) => Math.min(maxHealth, current + nearestHelper.heal));
+      }
+
+      if (nearestHelper.shield) {
+        setShield((current) => Math.max(current, nearestHelper.shield));
+      }
+
+      if (nearestHelper.energy) {
+        setEnergy((current) => Math.min(100, current + nearestHelper.energy));
+      }
       return;
     }
 
-    if (nearestHelper.revealHidden) {
-      revealSecrets(nearestHelper.message);
-    } else {
-      setMessage(nearestHelper.message);
+    const exitCenter = zone.exit && {
+      x: zone.exit.x + zone.exit.w / 2,
+      y: zone.exit.y + zone.exit.h / 2,
+    };
+
+    if (exitCenter && distance(currentPlayer, exitCenter) < exitNoticeRadius) {
+      const missingForExit = (zone.requiredForExit || level.requiredIds).filter(
+        (id) => !collectedRef.current.includes(id),
+      );
+      setMessage(
+        missingForExit.length
+          ? `${zone.lockedMessage || 'Выход пока закрыт.'} Осталось: ${missingForExit.map(labelFor).join(', ')}.`
+          : zone.nextZoneId === 'finish'
+            ? 'Финальный свет открыт. Войди в отмеченную зону.'
+            : 'Выход открыт. Заходи в светящийся проход.',
+      );
+      return;
     }
 
-    if (nearestHelper.heal) {
-      setHealth((current) => Math.min(maxHealth, current + nearestHelper.heal));
+    const nearestItem = (zone.collectibles || []).find(
+      (item) =>
+        !collectedRef.current.includes(item.id) &&
+        (!item.hidden || revealedRef.current.includes(item.id) || revealUntil > Date.now()) &&
+        distance(currentPlayer, item) < contextRadius,
+    );
+
+    if (nearestItem) {
+      setMessage(`${nearestItem.label}: подойди ближе, чтобы забрать.`);
+      return;
     }
 
-    if (nearestHelper.shield) {
-      setShield((current) => Math.max(current, nearestHelper.shield));
-    }
-
-    if (nearestHelper.energy) {
-      setEnergy((current) => Math.min(100, current + nearestHelper.energy));
-    }
-  }, [level.messages.actionEmpty, maxHealth, revealSecrets, zone.helpers]);
+    setMessage(level.messages.actionEmpty);
+  }, [
+    labelFor,
+    level.messages.actionEmpty,
+    level.requiredIds,
+    maxHealth,
+    revealSecrets,
+    revealUntil,
+    zone.collectibles,
+    zone.exit,
+    zone.helpers,
+    zone.lockedMessage,
+    zone.nextZoneId,
+    zone.requiredForExit,
+  ]);
 
   const isVisibleItem = useCallback(
     (item) => !item.hidden || revealed.includes(item.id) || Date.now() < revealUntil,
     [revealed, revealUntil],
   );
+
+  const contextPrompt = useMemo(() => {
+    const nearestHelper = (zone.helpers || []).find((helper) => distance(player, helper) < helperRadius);
+    if (nearestHelper) {
+      return {
+        kind: 'helper',
+        text: `${nearestHelper.label}: нажми действие`,
+        actionLabel: nearestHelper.type === 'sign' || nearestHelper.type === 'rhythm' ? 'Прочитать' : 'Спросить',
+      };
+    }
+
+    const nearestItem = (zone.collectibles || []).find(
+      (item) => !collected.includes(item.id) && isVisibleItem(item) && distance(player, item) < contextRadius,
+    );
+    if (nearestItem) {
+      return {
+        kind: 'item',
+        text: `${nearestItem.label}: подойди ближе`,
+        actionLabel: 'Что это?',
+      };
+    }
+
+    const exitCenter = zone.exit && {
+      x: zone.exit.x + zone.exit.w / 2,
+      y: zone.exit.y + zone.exit.h / 2,
+    };
+    if (exitCenter && distance(player, exitCenter) < exitNoticeRadius) {
+      return {
+        kind: zoneMissing.length ? 'locked' : 'exit',
+        text: zoneMissing.length ? `Выход закрыт: осталось ${zoneMissing.length}` : 'Выход открыт',
+        actionLabel: 'Проверить',
+      };
+    }
+
+    const nearestHazard = (zone.hazards || []).find((hazard) => distance(player, hazard) < hazard.r + dangerNoticeRadius);
+    if (nearestHazard) {
+      return {
+        kind: 'danger',
+        text: `${nearestHazard.label}: ${nearestHazard.effect === 'slow' ? 'замедляет' : 'больно'}`,
+      };
+    }
+
+    const nearestEnemy = enemies.find((enemy) => distance(player, enemy) < enemy.r + dangerNoticeRadius);
+    if (nearestEnemy) {
+      return {
+        kind: nearestEnemy.ai === 'chase' ? 'chaser' : 'danger',
+        text: `${nearestEnemy.label}: не касайся`,
+      };
+    }
+
+    return null;
+  }, [collected, enemies, isVisibleItem, player, zone.collectibles, zone.exit, zone.hazards, zone.helpers, zoneMissing.length]);
 
   const advanceIntro = () => {
     const introLength = level.intro?.length || 0;
@@ -345,12 +505,22 @@ export default function ActionGameScreen() {
     setMessage(zone.intro || level.messages.start);
   };
 
+  const startRoom = () => {
+    setSeenRoomBriefs((current) => (current.includes(zone.id) ? current : [...current, zone.id]));
+    setRoomBriefOpen(false);
+    setMessage(zone.intro || roomBrief.text);
+  };
+
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(event.code)) {
         event.preventDefault();
       }
       keysRef.current.add(event.code);
+
+      if (introActive || roomBriefOpen) {
+        return;
+      }
 
       if (event.repeat) return;
       if (event.code === 'Space') {
@@ -377,7 +547,7 @@ export default function ActionGameScreen() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [doAction, useDash, useGlasses]);
+  }, [doAction, introActive, roomBriefOpen, useDash, useGlasses]);
 
   useEffect(() => {
     let frameId;
@@ -430,7 +600,7 @@ export default function ActionGameScreen() {
       lastTime = time;
       const now = Date.now();
 
-      if (introActive) {
+      if (introActive || roomBriefOpen) {
         frameId = requestAnimationFrame(tick);
         return;
       }
@@ -560,6 +730,7 @@ export default function ActionGameScreen() {
     level.requiredIds,
     resetRun,
     revealUntil,
+    roomBriefOpen,
     setPlayerPosition,
     storyId,
     zone,
@@ -567,20 +738,40 @@ export default function ActionGameScreen() {
     zones,
   ]);
 
-  const stopMobileMove = () => setMobileDir({ x: 0, y: 0 });
+  const updateMobileStick = useCallback((event) => {
+    if (!mobileStickRef.current) return;
+    setMobileDir(getJoystickDirection(event, mobileStickRef.current));
+  }, []);
+
+  const startMobileMove = useCallback(
+    (event) => {
+      event.preventDefault();
+      event.currentTarget.setPointerCapture?.(event.pointerId);
+      updateMobileStick(event);
+    },
+    [updateMobileStick],
+  );
+
+  const stopMobileMove = useCallback((event) => {
+    event.currentTarget.releasePointerCapture?.(event.pointerId);
+    setMobileDir({ x: 0, y: 0 });
+  }, []);
+
   const keyStatus = level.keyParts || level.requiredIds.map((id) => ({ id, label: labelFor(id), icon: labelFor(id).slice(0, 1) }));
+  const abilityButtonLabel = character === 'yasmina' ? 'Способ.' : storyId === 'polina' ? 'Очки' : 'Зоркость';
+  const useHeroAbility = character === 'yasmina' ? useDash : useGlasses;
   const controlHint =
     storyId === 'polina'
       ? 'WASD/стрелки — движение · Пробел — Очки Полины · Shift/F — Муха-рывок · E — действие'
       : 'WASD/стрелки — движение · Пробел — способность · Shift/F — рывок · E — действие';
   const objectiveText = zoneMissing.length
-    ? zone.goal
+    ? zone.objectiveShort || `Собери: ${zoneMissing.map(labelFor).join(', ')}`
     : zone.nextZoneId === 'finish'
       ? 'Войди в свет Старой Яблони и заверши пробуждение.'
       : 'Проход открыт. Найди выход в следующую зону.';
 
   return (
-    <main className={`action-screen action-${level.theme} action-zone-${zone.theme}`}>
+    <main className={`action-screen action-${level.theme} action-zone-${zone.theme} action-room-mode`}>
       <div className="action-topbar">
         <div>
           <p className="eyebrow">{currentStory.title}</p>
@@ -637,9 +828,27 @@ export default function ActionGameScreen() {
 
       <section className="action-map-wrap">
         <div
-          className={`action-map map-${zone.theme} ${revealActive ? 'is-revealing' : ''}`}
+          className={`action-map map-${zone.theme} is-room-maze ${revealActive ? 'is-revealing' : ''}`}
           style={{ '--map-ratio': `${zone.width} / ${zone.height}` }}
         >
+          <div className="room-status" aria-live="polite">
+            <span>
+              Комната {zoneIndex + 1}/{zones.length}
+            </span>
+            <strong>
+              {zoneMissing.length ? `Осталось: ${zoneMissing.length}` : 'Дверь открыта'}
+            </strong>
+            <small>
+              {zoneCollectedCount}/{zoneRequired.length}
+            </small>
+          </div>
+
+          {contextPrompt && (
+            <div className={`nearby-prompt prompt-${contextPrompt.kind}`} aria-live="polite">
+              {contextPrompt.text}
+            </div>
+          )}
+
           {(zone.paths || []).map((path) => (
             <div
               className={`map-path path-${path.kind || 'path'}`}
@@ -713,6 +922,35 @@ export default function ActionGameScreen() {
             </div>
           ))}
 
+          {enemies.map((enemy) => {
+            const axis = enemy.axis || 'x';
+            const routeMin = axis === 'y' ? enemy.minY ?? enemy.homeY - 110 : enemy.minX ?? enemy.homeX - 110;
+            const routeMax = axis === 'y' ? enemy.maxY ?? enemy.homeY + 110 : enemy.maxX ?? enemy.homeX + 110;
+
+            return (
+              <div
+                className={`enemy-route route-${enemy.type || 'wisp'} ${enemy.ai === 'chase' ? 'route-chaser' : ''}`}
+                key={`${enemy.id}-route`}
+                aria-hidden="true"
+                style={
+                  axis === 'y'
+                    ? {
+                        left: sx(enemy.x - 5),
+                        top: sy(routeMin),
+                        width: sx(10),
+                        height: sy(routeMax - routeMin),
+                      }
+                    : {
+                        left: sx(routeMin),
+                        top: sy(enemy.y - 5),
+                        width: sx(routeMax - routeMin),
+                        height: sy(10),
+                      }
+                }
+              />
+            );
+          })}
+
           {enemies.map((enemy) => (
             <div
               className={`map-enemy enemy-${enemy.type || 'wisp'} ${enemy.ai === 'chase' ? 'is-chaser' : ''}`}
@@ -782,30 +1020,38 @@ export default function ActionGameScreen() {
       </section>
 
       <section className="mobile-controls" aria-label="Управление на телефоне">
-        <div className="mobile-stick">
-          <button type="button" aria-label="Вверх" onPointerDown={() => setMobileDir({ x: 0, y: -1 })} onPointerUp={stopMobileMove} onPointerCancel={stopMobileMove} onPointerLeave={stopMobileMove}>
-            ▲
-          </button>
-          <button type="button" aria-label="Влево" onPointerDown={() => setMobileDir({ x: -1, y: 0 })} onPointerUp={stopMobileMove} onPointerCancel={stopMobileMove} onPointerLeave={stopMobileMove}>
-            ◀
-          </button>
-          <button type="button" aria-label="Вправо" onPointerDown={() => setMobileDir({ x: 1, y: 0 })} onPointerUp={stopMobileMove} onPointerCancel={stopMobileMove} onPointerLeave={stopMobileMove}>
-            ▶
-          </button>
-          <button type="button" aria-label="Вниз" onPointerDown={() => setMobileDir({ x: 0, y: 1 })} onPointerUp={stopMobileMove} onPointerCancel={stopMobileMove} onPointerLeave={stopMobileMove}>
-            ▼
-          </button>
+        <div
+          className="mobile-stick"
+          ref={mobileStickRef}
+          role="application"
+          aria-label="Большой джойстик движения"
+          onPointerDown={startMobileMove}
+          onPointerMove={updateMobileStick}
+          onPointerUp={stopMobileMove}
+          onPointerCancel={stopMobileMove}
+          onPointerLeave={stopMobileMove}
+        >
+          <span className="stick-arrow stick-up">▲</span>
+          <span className="stick-arrow stick-right">▶</span>
+          <span className="stick-arrow stick-down">▼</span>
+          <span className="stick-arrow stick-left">◀</span>
+          <span
+            className="mobile-stick-knob"
+            style={{ transform: `translate(calc(-50% + ${mobileDir.x * 30}px), calc(-50% + ${mobileDir.y * 30}px))` }}
+          />
         </div>
         <div className="mobile-action-buttons">
-          <button type="button" onClick={useGlasses}>
-            Очки
+          <button type="button" onClick={useHeroAbility}>
+            {abilityButtonLabel}
           </button>
           <button type="button" onClick={useDash}>
             Рывок
           </button>
-          <button type="button" onClick={doAction}>
-            Действие
-          </button>
+          {contextPrompt?.actionLabel && (
+            <button className="context-action-button" type="button" onClick={doAction}>
+              {contextPrompt.actionLabel}
+            </button>
+          )}
         </div>
       </section>
 
@@ -816,7 +1062,35 @@ export default function ActionGameScreen() {
             <h2>{currentIntro.title}</h2>
             <p>{currentIntro.text}</p>
             <button className="primary-button" type="button" onClick={advanceIntro}>
-              {introIndex < (level.intro?.length || 0) - 1 ? 'Дальше' : 'Войти в сад'}
+              {introIndex < (level.intro?.length || 0) - 1 ? 'Дальше' : 'Начать первую комнату'}
+            </button>
+          </section>
+        </div>
+      )}
+
+      {!introActive && roomBriefOpen && (
+        <div className="action-intro-backdrop">
+          <section className="action-intro room-brief" role="dialog" aria-modal="true" aria-label="Комната">
+            <p className="eyebrow">{roomBrief.kicker}</p>
+            <h2>{roomBrief.title}</h2>
+            <p>{roomBrief.text}</p>
+            <div className="room-brief-plan" aria-label="План комнаты">
+              <span>
+                <b>Собрать</b>
+                {roomPlan.collect.join(', ')}
+              </span>
+              <span>
+                <b>Опасно</b>
+                {roomPlan.avoid.join(', ') || 'нет явной опасности'}
+              </span>
+              <span>
+                <b>Выход</b>
+                {roomPlan.exit}
+              </span>
+            </div>
+            <p className="room-brief-tip">{roomBrief.tip}</p>
+            <button className="primary-button" type="button" onClick={startRoom}>
+              Начать комнату
             </button>
           </section>
         </div>
